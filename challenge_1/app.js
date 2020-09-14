@@ -35,6 +35,8 @@ button.addEventListener('click', function () {
 
 })
 
+
+
 //########################################
 // Functions to change view
 
@@ -59,7 +61,7 @@ var winnerTally = () => {
 // Functions to change game state -- controllers
 
 // check if a player matches to one winning combo
-var arrayMatch = (arr1, winningArray) => {
+var winMatch = (arr1, winningArray) => {
   for (let i = 0; i < winningArray.length; i++) {
     if (arr1.indexOf(winningArray[i]) === -1) {
       return false;
@@ -71,13 +73,13 @@ var arrayMatch = (arr1, winningArray) => {
 // check the players against all possible winning combinations
 var checkWinner = () => {
   for (let i = 0; i < winningCombo.length; i++) {
-    if (arrayMatch(xBank, winningCombo[i])) {
+    if (winMatch(xBank, winningCombo[i])) {
       alert('X won the game');
       recentWinner = 'X';
       xTotalWins++;
       winnerTally();
       break;
-    } else if (arrayMatch(oBank, winningCombo[i])) {
+    } else if (winMatch(oBank, winningCombo[i])) {
       alert('O won the game');
       recentWinner = 'O';
       oTotalWins++;
