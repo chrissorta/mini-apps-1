@@ -23,8 +23,8 @@ board.addEventListener('click', function (e) {
   if (isLegalMove(e.target.id.toString())) {
     placePiece(e);
     addScore(currentPlayer, e.target.id);
-    changePlayer();
     checkWinner();
+    changePlayer();
   }
 
 })
@@ -72,24 +72,27 @@ var winMatch = (arr1, winningArray) => {
 
 // check the players against all possible winning combinations
 var checkWinner = () => {
+  let didWin = false;
   for (let i = 0; i < winningCombo.length; i++) {
     if (winMatch(xBank, winningCombo[i])) {
       alert('X won the game');
       recentWinner = 'X';
       xTotalWins++;
       winnerTally();
+      didWin = true;
       break;
     } else if (winMatch(oBank, winningCombo[i])) {
       alert('O won the game');
       recentWinner = 'O';
       oTotalWins++;
       winnerTally();
+      didWin = true;
       break;
 
-    } else if (moves === 9) {
-      alert("Tied Game");
-      break;
     }
+  }
+  if (moves === 9 && !didWin) {
+    alert("Tied Game");
   }
 }
 
