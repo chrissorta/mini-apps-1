@@ -1,15 +1,19 @@
 
 // Variables to track state/model
 
+// board state
 const winningCombo = [['1', '4', '7'], ['2', '5', '8'], ['3', '6', '9'], ['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']
   , ['1', '5', '9'], ['3', '5', '7']];
 let moves = 0;
-
 let currentPlayer = 'X';
 let recentWinner = '' || 'X';
+
+// x state
 let xBank = [];
-let oBank = [];
 let xTotalWins = 0;
+
+// o state
+let oBank = [];
 let oTotalWins = 0;
 
 //Event Handlers
@@ -40,6 +44,15 @@ var placePiece = (e) => {
   el.innerHTML = currentPlayer;
 }
 
+// Update tally of winner
+var winnerTally = () => {
+  xEl = document.getElementById("xWins");
+  xEl.innerHTML = "X: " + xTotalWins;
+  oEl = document.getElementById("oWins");
+  oEl.innerHTML = "O: " + oTotalWins;
+
+}
+
 
 //########################################
 
@@ -62,16 +75,19 @@ var checkWinner = () => {
       alert('X won the game');
       recentWinner = 'X';
       xTotalWins++;
-    }
-    if (arrayMatch(oBank, winningCombo[i])) {
+      winnerTally();
+      break;
+    } else if (arrayMatch(oBank, winningCombo[i])) {
       alert('O won the game');
       recentWinner = 'O';
       oTotalWins++;
+      winnerTally();
+      break;
 
+    } else if (moves === 9) {
+      alert("Tied Game");
+      break;
     }
-  }
-  if (moves === 9) {
-    alert("Tied Game");
   }
 }
 
