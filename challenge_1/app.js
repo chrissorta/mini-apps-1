@@ -1,4 +1,6 @@
 
+// Variables to track state
+
 const winningCombo = [['1','4','7'], ['2','5','8'], ['3','6','9'], ['1','2','3'], ['4','5','6'], ['7','8','9']
 , ['1','5','9'], ['3','5','7']];
 let moves = 0;
@@ -7,22 +9,43 @@ var currentPlayer = 'X';
 let xBank = [];
 let oBank = [];
 
+//Event Handlers -- controllers
 let board = document.getElementById('board');
 board.addEventListener('click', function(e){
-  console.log(e.target.id);
-  el = document.getElementById(e.target.id);
-  el.innerHTML = currentPlayer;
+
+  if(isLegalMove(e.target.id.toString())) {
+    el = document.getElementById(e.target.id);
+    el.innerHTML = currentPlayer;
   moves++;
   addScore(currentPlayer, e.target.id);
-  console.log('x score: ',xBank)
-  console.log('o score: ',oBank)
   changePlayer();
+  checkWinner();
+}
 
-  xBank = xBank.sort();
-  oBank = oBank.sort();
+})
+
+button = document.getElementById('button');
+button.addEventListener('click', function() {
+  for(let i = 1; i <= 9; i++) {
+    document.getElementById(i.toString()).innerHTML = '';
+  }
+  resetBoard();
+
+})
+
+// Functions to change game state
+var arrayMatch = (arr1, winningArray) => {
+ for(let i = 0; i < winningArray.length; i++) {
+   if(arr1.indexOf(winningArray[i]) === -1) {
+     return false;
+   }
+ }
+ return true;
+}
+
+var checkWinner = () => {
 
   for(let i = 0; i < winningCombo.length; i++) {
-    // console.log(winningCombo[i]);
     if(arrayMatch(xBank, winningCombo[i])) {
       console.log('hi');
       alert('X won the game');
@@ -34,33 +57,14 @@ board.addEventListener('click', function(e){
   if(moves === 9) {
     alert("Tied Game");
   }
+}
 
-})
-
-button = document.getElementById('button');
-button.addEventListener('click', function() {
-  for(let i = 1; i <= 9; i++) {
-    document.getElementById(i.toString()).innerHTML = '';
-  }
-  xBank = [];
-  oBank = [];
-  currentPlayer = 'X';
-  moves = 0;
-})
-
-var arrayMatch = (arr1, arr2) => {
-  if(arr1.length !== arr2.length) {
+var isLegalMove = (value) => {
+  if(xBank.indexOf(value) !== -1 || oBank.indexOf(value) !== -1) {
     return false;
-  }
-
-  for(let i = 0; i < arr1.length; i++) {
-    if(arr1[i] !== arr2[i]) {
-      return false;
-    }
   }
   return true;
 }
-
 
 var changePlayer = () => {
 
@@ -76,8 +80,18 @@ var changePlayer = () => {
 var addScore = (player, value) => {
   if(player === 'X') {
     xBank.push(value);
+    xBank = xBank.sort();
   } else {
     oBank.push(value);
+    oBank = oBank.sort();
   }
+}
+
+var resetBoard = () => {
+
+  xBank = [];
+  oBank = [];
+  currentPlayer = 'X';
+  moves = 0;
 }
 
