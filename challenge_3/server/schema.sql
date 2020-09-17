@@ -12,7 +12,7 @@ CREATE table info(
   line1 VARCHAR(100) ,
   line2 VARCHAR(100) ,
   city VARCHAR(100) ,
-  state VARCHAR(100) ,ƒ
+  state VARCHAR(100) ,
   zipcode INT ,
   phone INT ,
   credit_card INT ,

@@ -9,6 +9,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentPage: 0,
+      id: 1,
       name: '',
       email: '',
       password: '',
@@ -17,6 +18,7 @@ class App extends React.Component {
       city: '',
       state: '',
       zipcode: 0,
+      phone: '',
       creditcard: 0,
       expiry: '',
       cvv: 0,
@@ -27,8 +29,8 @@ class App extends React.Component {
   }
 
   onButtonClick(e) {
-    if(this.state.currentPage === 0) {
-      this.setState({currentPage: 1 });
+    if (this.state.currentPage === 0) {
+      this.setState({ currentPage: 1 });
     }
     if (this.state.currentPage === 1) {
       let email = e.target.elements.email.value;
@@ -38,11 +40,11 @@ class App extends React.Component {
 
       axios.post('/form1', {
         name, email, password
-      }).then( (res) => {
+      }).then((res) => {
         console.log(res);
-        this.setState({ name, password, email, currentPage: 2 })
       })
 
+      this.setState({ name, password, email, currentPage: 2 })
 
 
     } else if (this.state.currentPage === 2) {
@@ -52,13 +54,32 @@ class App extends React.Component {
       let city = e.target.elements.city.value;
       let state = e.target.elements.state.value;
       let zipcode = e.target.elements.zipcode.value;
-      this.setState({ line1, line2, city, state, zipcode, currentPage: 3 })
+      let phone = e.target.elements.phone.value;
+
+      axios.post('/form2', {
+        line1, line2, city, state, zipcode, phone, id: this.state.id
+      }).then((res) => {
+        console.log(res);
+      }).catch((res) => {
+        console.log(res);
+      })
+
+      this.setState({ line1, line2, city, state, zipcode, phone, currentPage: 3 })
 
     } else if (this.state.currentPage === 3) {
       let creditcard = e.target.elements.creditcard.value;
       let expiry = e.target.elements.expiry.value;
       let cvv = e.target.elements.cvv.value;
-      let billingzip = e.target.elements.state.billingzip;
+      let billingzip = e.target.elements.billingzip.value;
+
+      axios.post('/form3', {
+        creditcard, expiry, cvv, billingzip, id: this.state.id
+      }).then((res) => {
+        console.log(res);
+      }).catch((res) => {
+        console.log(res);
+      })
+
       this.setState({ creditcard, expiry, cvv, billingzip, currentPage: 4 })
 
     } else if (this.state.currentPage === 4) {
@@ -158,7 +179,7 @@ var F2 = (props) => {
       City: <input type="text" name="city"></input> <br />
       State: <input type="text" name="state"></input> <br />
       Zipcode: <input type="text" name="zipcode"></input> <br />
-      Phone #: <input type="text" name="email"></input><br />
+      Phone #: <input type="text" name="phone"></input><br />
         <button type="submit">Next</button>
       </form>
 
@@ -185,7 +206,7 @@ var F3 = (props) => {
       Credit Card #: <input type="text" name="creditcard"></input> <br />
       Expiry Date: <input type="text" name="expiry"></input> <br />
       CVV: <input type="text" name="cvv"></input> <br />
-      Billing Zip Code: <input type="billingzip" name="state"></input> <br />
+      Billing Zip Code: <input type="text" name="billingzip"></input> <br />
         <button type="submit" >Next</button>
       </form>
 
