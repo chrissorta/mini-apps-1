@@ -28,6 +28,7 @@ class App extends React.Component {
   }
 
   onButtonClick(e) {
+    e.preventDefault();
     if (this.state.currentPage === 0) {
       this.setState({ currentPage: 1 });
     }
@@ -36,14 +37,17 @@ class App extends React.Component {
       let name = e.target.elements.name.value;
       let password = e.target.elements.password.value;
 
-
       axios.post('/form1', {
         name, email, password
-      }).then((res) => {
-        console.log(res);
       })
+        .then((res) => {
+          console.log('hi');
+          this.setState({ name, password, email, currentPage: 2 }, () => console.log(this.state));
+        })
+        .catch((res) => {
+          console.log('catch');
+        });
 
-      this.setState({ name, password, email, currentPage: 2 })
 
 
     } else if (this.state.currentPage === 2) {
@@ -55,15 +59,15 @@ class App extends React.Component {
       let zipcode = e.target.elements.zipcode.value;
       let phone = e.target.elements.phone.value;
 
-      axios.post('/form2', {
+      axios.put('/form2', {
         line1, line2, city, state, zipcode, phone
       }).then((res) => {
         console.log(res);
+        this.setState({ line1, line2, city, state, zipcode, phone, currentPage: 3 })
       }).catch((res) => {
         console.log(res);
       })
 
-      this.setState({ line1, line2, city, state, zipcode, phone, currentPage: 3 })
 
     } else if (this.state.currentPage === 3) {
       let creditcard = e.target.elements.creditcard.value;
@@ -71,15 +75,15 @@ class App extends React.Component {
       let cvv = e.target.elements.cvv.value;
       let billingzip = e.target.elements.billingzip.value;
 
-      axios.post('/form3', {
+      axios.put('/form3', {
         creditcard, expiry, cvv, billingzip
       }).then((res) => {
         console.log(res);
+        this.setState({ creditcard, expiry, cvv, billingzip, currentPage: 4 })
       }).catch((res) => {
         console.log(res);
       })
 
-      this.setState({ creditcard, expiry, cvv, billingzip, currentPage: 4 })
 
     } else if (this.state.currentPage === 4) {
       this.setState({
@@ -251,9 +255,9 @@ var Summary = (props) => {
       <div>state: {props.state.state}</div>
       <div>zipcode: {props.state.zipcode}</div>
       <div>creditcard: {props.state.creditcard}</div>
-      <div>expiry: {props.state.expiry}</div>
+      <div>expiration date: {props.state.expiry}</div>
       <div>billingzip: {props.state.billingzip}</div>
-      <button onClick={() => props.onButtonClick()}>
+      <button onClick={(e) => props.onButtonClick(e)}>
         Purchase
       </button>
       <br />

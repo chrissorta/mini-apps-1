@@ -21,19 +21,20 @@ app.post('/form1', function (req, res) {
   console.log(req.body);
   data = [req.body.name, req.body.email, req.body.password];
 
-  model.postForm1(data, (err) => {
+  model.postForm1(data, (err, result) => {
     if (err) {
       console.log(err);
-      res.send();
+      res.status(400).send(err);
     } else {
-      res.send();
+      console.log('postform1 Sent back');
+      res.status(201).send('success');
     }
 
   })
 
 })
 
-app.post('/form2', function (req, res) {
+app.put('/form2', function (req, res) {
   console.log(req.body);
   data = [req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zipcode,  req.body.phone];
 
@@ -49,7 +50,7 @@ app.post('/form2', function (req, res) {
 
 })
 
-app.post('/form3', function (req, res) {
+app.put('/form3', function (req, res) {
   console.log(req.body);
   data = [req.body.creditcard, req.body.expiry, req.body.cvv, req.body.billingzip, req.body.id];
 
