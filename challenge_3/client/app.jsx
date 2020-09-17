@@ -9,7 +9,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentPage: 0,
-      id: 1,
       name: '',
       email: '',
       password: '',
@@ -57,7 +56,7 @@ class App extends React.Component {
       let phone = e.target.elements.phone.value;
 
       axios.post('/form2', {
-        line1, line2, city, state, zipcode, phone, id: this.state.id
+        line1, line2, city, state, zipcode, phone
       }).then((res) => {
         console.log(res);
       }).catch((res) => {
@@ -73,7 +72,7 @@ class App extends React.Component {
       let billingzip = e.target.elements.billingzip.value;
 
       axios.post('/form3', {
-        creditcard, expiry, cvv, billingzip, id: this.state.id
+        creditcard, expiry, cvv, billingzip
       }).then((res) => {
         console.log(res);
       }).catch((res) => {
@@ -83,7 +82,22 @@ class App extends React.Component {
       this.setState({ creditcard, expiry, cvv, billingzip, currentPage: 4 })
 
     } else if (this.state.currentPage === 4) {
-      this.setState({ currentPage: 0 });
+      this.setState({
+        currentPage: 0,
+        name: '',
+        email: '',
+        password: '',
+        line1: '',
+        line2: '',
+        city: '',
+        state: '',
+        zipcode: 0,
+        phone: '',
+        creditcard: 0,
+        expiry: '',
+        cvv: 0,
+        billingzip: 0
+      });
     }
   }
 
@@ -228,7 +242,6 @@ var Summary = (props) => {
         Summary of information provided:
       </div>
       <div>name:{props.state.name}</div>
-      <div>email: {props.state.email}</div>
       <div>email: {props.state.email}</div>
       <div>password: {props.state.password}</div>
       <div>Address</div>

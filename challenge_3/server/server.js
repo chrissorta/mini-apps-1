@@ -35,7 +35,7 @@ app.post('/form1', function (req, res) {
 
 app.post('/form2', function (req, res) {
   console.log(req.body);
-  data = [req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zipcode,  req.body.phone, req.body.id];
+  data = [req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zipcode,  req.body.phone];
 
   model.postForm2(data, (err) => {
     if (err) {
